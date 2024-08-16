@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unified Modeling Language - Company Profile</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <script type="text/javascript" src="jquery.js"></script>
+    <script type="text/javascript" src="jquery_plantuml.js"></script>
+    <!-- rawdeflate.js is implicitly used by jquery_plantuml.js -->
+</head>
+
+<body>
+
+<!-- Navigation Bar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <a class="navbar-brand" href="#">UML - Company Profile</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="#">Home</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">About</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Contact</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<!-- Main Content -->
+<div class="container mt-5">
+    <!-- Tabs for Diagrams -->
+    <ul class="nav nav-tabs" id="diagramTabs" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" id="activity-tab" data-toggle="tab" href="#activity" role="tab" aria-controls="activity" aria-selected="true">Activity Diagram</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="class-tab" data-toggle="tab" href="#class" role="tab" aria-controls="class" aria-selected="false">Class Diagram</a>
+        </li>
+    </ul>
+
+    <!-- Tab Content -->
+    <div class="tab-content mt-3">
+        <!-- Activity Diagram Tab -->
+        <div class="tab-pane fade show active" id="activity" role="tabpanel" aria-labelledby="activity-tab">
+            <div class="row">
+                <div class="col-md-12">
+                    <h3 class="text-center">Activity Diagram</h3>
+                    <div class="text-center">
+                        <img uml="
+                        @startuml
+                        start
+
+                        :Visitor Browses Website;
+                        :View Contact Page;
+
+                        if (Wants to Submit Form?) then (Yes)
+                            :Fill Out Contact Form;
+                            :Submit Form;
+                            :Form Submission Recorded;
+                            fork
+                                :Notify Admin;
+                            fork again
+                                :Notify Customer Support;
+                            end fork
+                        else (No)
+                            :Continue Browsing;
+                        endif
+
+                        fork
+                            :Admin Responds to Inquiry;
+                        fork again
+                            :Customer Support Responds to Inquiry;
+                        end fork
+
+                        stop
+                        @enduml
+                        ">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Class Diagram Tab -->
+        <div class="tab-pane fade" id="class" role="tabpanel" aria-labelledby="class-tab">
+            <div class="row">
+                <div class="col-md-12">
+                    <h3 class="text-center">Class Diagram</h3>
+                    <div class="text-center">
+                        <img uml="
+                        @startuml
+                        class Visitor {
+                          + browseWebsite()
+                          + viewAboutUs()
+                          + viewServices()
+                          + viewPortfolio()
+                          + viewContactInfo()
+                          + submitContactForm()
+                        }
+                        
+                        class Admin {
+                          + manageUsers()
+                          + manageWebsiteSettings()
+                          + respondToInquiries()
+                        }
+                        
+                        class ContentManager {
+                          + manageContent()
+                        }
+                        
+                        class CustomerSupport {
+                          + respondToInquiries()
+                        }
+                        
+                        class Website {
+                          + name: String
+                          + url: String
+                          + launchDate: Date
+                          + services: List<Service>
+                          + content: List<Content>
+                          + displayWebsite()
+                        }
+                        
+                        class Service {
+                          + serviceName: String
+                          + description: String
+                          + price: Double
+                          + displayService()
+                        }
+                        
+                        class Content {
+                          + title: String
+                          + body: String
+                          + datePublished: Date
+                          + updateContent()
+                        }
+                        
+                        class ContactForm {
+                          + name: String
+                          + email: String
+                          + message: String
+                          + submitForm()
+                        }
+                        
+                        Visitor --> Website : browses
+                        Visitor --> ContactForm : submits
+                        Admin --> Website : manages
+                        ContentManager --> Content : updates
+                        CustomerSupport --> ContactForm : responds
+                        
+                        @enduml            
+                        ">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap and jQuery JS -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
