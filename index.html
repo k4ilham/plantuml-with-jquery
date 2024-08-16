@@ -43,7 +43,7 @@
     <div class="container-fluid mt-5">
       <!-- Tabs for Diagrams -->
       <ul class="nav nav-tabs w-100" id="diagramTabs" role="tablist">
-        <li class="nav-item w-25">
+        <li class="nav-item w-20">
           <a
             class="nav-link active text-center"
             id="activity-tab"
@@ -55,7 +55,7 @@
             >Activity Diagram</a
           >
         </li>
-        <li class="nav-item w-25">
+        <li class="nav-item w-20">
           <a
             class="nav-link text-center"
             id="class-tab"
@@ -67,7 +67,7 @@
             >Class Diagram</a
           >
         </li>
-        <li class="nav-item w-25">
+        <li class="nav-item w-20">
           <a
             class="nav-link text-center"
             id="usecase-tab"
@@ -79,6 +79,66 @@
             >Usecase Diagram</a
           >
         </li>
+        <li class="nav-item w-20">
+            <a
+              class="nav-link text-center"
+              id="state-tab"
+              data-toggle="tab"
+              href="#state"
+              role="tab"
+              aria-controls="state"
+              aria-selected="false"
+              >State Diagram</a
+            >
+          </li>
+          <li class="nav-item w-20">
+            <a
+              class="nav-link text-center"
+              id="sequence-tab"
+              data-toggle="tab"
+              href="#sequence"
+              role="tab"
+              aria-controls="sequence"
+              aria-selected="false"
+              >Sequence Diagram</a
+            >
+          </li>
+          <li class="nav-item w-20">
+            <a
+              class="nav-link text-center"
+              id="component-tab"
+              data-toggle="tab"
+              href="#component"
+              role="tab"
+              aria-controls="component"
+              aria-selected="false"
+              >Component Diagram</a
+            >
+          </li>
+          <li class="nav-item w-20">
+            <a
+              class="nav-link text-center"
+              id="deployment-tab"
+              data-toggle="tab"
+              href="#deployment"
+              role="tab"
+              aria-controls="deployment"
+              aria-selected="false"
+              >Deployment Diagram</a
+            >
+          </li>
+          <li class="nav-item w-20">
+            <a
+              class="nav-link text-center"
+              id="object-tab"
+              data-toggle="tab"
+              href="#object"
+              role="tab"
+              aria-controls="object"
+              aria-selected="false"
+              >Object Diagram</a
+            >
+          </li>
       </ul>
 
       <!-- Tab Content -->
@@ -97,33 +157,64 @@
                 <div class="card-body text-center uml-image">
                   <img
                     uml="
-                            @startuml
-                            start
-
-                            :Visitor Browses Website;
-                            :View Contact Page;
-
-                            if (Wants to Submit Form?) then (Yes)
-                                :Fill Out Contact Form;
-                                :Submit Form;
-                                :Form Submission Recorded;
-                                fork
-                                    :Notify Admin;
-                                fork again
-                                    :Notify Customer Support;
-                                end fork
-                            else (No)
-                                :Continue Browsing;
-                            endif
-
-                            fork
-                                :Admin Responds to Inquiry;
-                            fork again
-                                :Customer Support Responds to Inquiry;
-                            end fork
-
-                            stop
-                            @enduml
+                    @startuml
+                    title Contact Form Submission Process
+                    
+                    ' Customize colors for swimlanes
+                    skinparam swimlane {
+                      BackgroundColor #F5F5F5
+                      BorderColor #B0B0B0
+                      BorderThickness 2
+                    }
+                    
+                    ' Customize colors for activity boxes
+                    skinparam activity {
+                      BackgroundColor #E0FFFF
+                      BorderColor #00CED1
+                      BorderThickness 1
+                    }
+                    
+                    ' Customize colors for title
+                    skinparam title {
+                      BackgroundColor #ADD8E6
+                      BorderColor #4682B4
+                      BorderThickness 2
+                      FontColor #000080
+                    }
+                    
+                    ' Customize colors for note boxes
+                    skinparam note {
+                      BackgroundColor #FFFFE0
+                      BorderColor #FFD700
+                    }
+                    
+                    start
+                    
+                    :Visitor Browses Website;
+                    :View Contact Page;
+                    
+                    if (Wants to Submit Form?) then (Yes)
+                        :Fill Out Contact Form;
+                        :Submit Form;
+                        :Form Submission Recorded;
+                        fork
+                            :Notify Admin;
+                        fork again
+                            :Notify Customer Support;
+                        end fork
+                    else (No)
+                        :Continue Browsing;
+                    endif
+                    
+                    fork
+                        :Admin Responds to Inquiry;
+                    fork again
+                        :Customer Support Responds to Inquiry;
+                    end fork
+                    
+                    stop
+                    @enduml
+                    
                             "
                   />
                 </div>
@@ -145,69 +236,85 @@
                 <div class="card-header text-center">Class Diagram</div>
                 <div class="card-body text-center uml-image">
                   <img
-                    uml="
-                            @startuml
-                            class Visitor {
-                              + browseWebsite()
-                              + viewAboutUs()
-                              + viewServices()
-                              + viewPortfolio()
-                              + viewContactInfo()
-                              + submitContactForm()
-                            }
+                    uml='
+                    @startuml
+                    title Class Diagram for Company Profile Website
+                    
+
+                    skinparam class {
+                      BackgroundColor #E6F7FF
+                      BorderColor #007ACC
+                      FontColor #333333
+                    }
+                    skinparam title {
+                      BackgroundColor #007ACC
+                      FontColor #FFFFFF
+                    }
+                    
+ 
+                    class Visitor {
+                      + browseWebsite()
+                      + viewAboutUs()
+                      + viewServices()
+                      + viewPortfolio()
+                      + viewContactInfo()
+                      + submitContactForm()
+                    }
+                    
+                    class Admin {
+                      + manageUsers()
+                      + manageWebsiteSettings()
+                    }
+                    
+                    class ContentManager {
+                      + manageContent()
+                    }
+                    
+                    class CustomerSupport {
+                      + respondToInquiries()
+                    }
+                    
+                    class Website {
+                      + name
+                      + url
+                      + launchDate
+                      + services: List<Service>
+                      + content: List<Content>
+                    }
+                    
+                    class Service {
+                      + serviceName
+                      + description
+                      + price
+                      + showService()
+                    }
+                    
+                    class Content {
+                      + title
+                      + body
+                      + datePublished
+                      + updateContent()
+                    }
+                    
+                    class ContactForm {
+                      + name
+                      + email
+                      + message
+                      + submitForm()
+                    }
+                    
+                    Visitor --> Website : browse
+                    Visitor --> ContactForm : submits
+                    Admin --> Website : manages
+                    ContentManager --> Content : updates
+                    CustomerSupport --> ContactForm : responds
+                    Website "1" -- "*" Service : contains
+                    Website "1" -- "*" Content : hosts
+                    
+                    @enduml
+                    
+                    '     
                             
-                            class Admin {
-                              + manageUsers()
-                              + manageWebsiteSettings()
-                              + respondToInquiries()
-                            }
-                            
-                            class ContentManager {
-                              + manageContent()
-                            }
-                            
-                            class CustomerSupport {
-                              + respondToInquiries()
-                            }
-                            
-                            class Website {
-                              + name: String
-                              + url: String
-                              + launchDate: Date
-                              + services: List<Service>
-                              + content: List<Content>
-                              + displayWebsite()
-                            }
-                            
-                            class Service {
-                              + serviceName: String
-                              + description: String
-                              + price: Double
-                              + displayService()
-                            }
-                            
-                            class Content {
-                              + title: String
-                              + body: String
-                              + datePublished: Date
-                              + updateContent()
-                            }
-                            
-                            class ContactForm {
-                              + name: String
-                              + email: String
-                              + message: String
-                              + submitForm()
-                            }
-                            
-                            Visitor --> Website : browses
-                            Visitor --> ContactForm : submits
-                            Admin --> Website : manages
-                            ContentManager --> Content : updates
-                            CustomerSupport --> ContactForm : responds
-                            
-                            @enduml            
-                            "
                   />
                 </div>
               </div>
@@ -230,6 +337,35 @@
                   <img
                     uml='
                     @startuml
+                    title Usecase Diagram
+                    
+                    
+                    skinparam actor {
+                      BackgroundColor #E0E0E0
+                      BorderColor #9E9E9E
+                      FontColor #424242
+                    }
+
+                    skinparam usecase {
+                      BackgroundColor #D0E1F9
+                      BorderColor #1E88E5
+                      FontColor #0D47A1
+                    }
+                    
+
+                    skinparam Arrow {
+                      Color #1E88E5
+                      FontColor #0D47A1
+                    }
+                    
+
+                    skinparam title {
+                      BackgroundColor #C5CAE9
+                      BorderColor #3F51B5
+                      FontColor #1A237E
+                    }
+                    
+
                     actor "Visitor" as visitor
                     actor "Admin" as admin
                     actor "Content Manager" as contentManager
@@ -264,7 +400,8 @@
                     UC9 --> UC7 : <<extends>>
                     UC8 --> UC11 : <<includes>>
                     
-                    @enduml         
+                    @enduml
+                            
                             '
                   />
                 </div>
@@ -272,6 +409,346 @@
             </div>
           </div>
         </div>
+
+        <!-- state Diagram Tab -->
+        <div
+          class="tab-pane fade"
+          id="state"
+          role="tabpanel"
+          aria-labelledby="state-tab"
+        >
+          <div class="row">
+            <div class="col-md-12">
+              <div class="card">
+                <div class="card-header text-center">State Diagram</div>
+                <div class="card-body text-center uml-image">
+                  <img
+                    uml='
+                    @startuml
+                    title State Diagram
+                                
+        
+                    skinparam state {
+                      BackgroundColor #E3F2FD
+                      BorderColor #2196F3
+                      FontColor #0D47A1
+                    }
+                    
+           
+                    skinparam Arrow {
+                      Color #2196F3
+                      FontColor #0D47A1
+                    }
+                    
+      
+                    skinparam title {
+                      BackgroundColor #BBDEFB
+                      BorderColor #64B5F6
+                      FontColor #0D47A1
+                    }
+                    
+          
+                    [*] --> Home
+                    
+                    Home --> About : "About Us Link"
+                    Home --> Services : "Services Link"
+                    Home --> Contact : "Contact Link"
+                    Home --> Portfolio : "Portfolio Link"
+                    
+                    About --> Home : "Back to Home"
+                    Services --> Home : "Back to Home"
+                    Contact --> Home : "Back to Home"
+                    Portfolio --> Home : "Back to Home"
+                    
+                    @enduml
+                        
+                            '
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <!-- sequence Diagram Tab -->
+        <div
+          class="tab-pane fade"
+          id="sequence"
+          role="tabpanel"
+          aria-labelledby="sequence-tab"
+        >
+          <div class="row">
+            <div class="col-md-12">
+              <div class="card">
+                <div class="card-header text-center">Sequence Diagram</div>
+                <div class="card-body text-center uml-image">
+                  <img
+                    uml='
+                    @startuml
+                    title Sequence Diagram
+                    
+           
+                    skinparam actor {
+                      BackgroundColor #E3F2FD
+                      BorderColor #2196F3
+                      FontColor #0D47A1
+                    }
+                    
+           
+                    skinparam Arrow {
+                      Color #2196F3
+                      FontColor #0D47A1
+                    }
+                    
+        
+                    skinparam activity {
+                      BackgroundColor #E1BEE7
+                      BorderColor #AB47BC
+                      FontColor #6A1B9A
+                    }
+                    
+   
+                    skinparam title {
+                      BackgroundColor #B3E5FC
+                      BorderColor #03A9F4
+                      FontColor #01579B
+                    }
+                    
+  
+                    actor Visitor
+                    actor CustomerSupport
+                    actor Admin
+                    
+
+                    Visitor -> Website: Browse pages
+                    Visitor -> Website: View Contact Page
+                    Visitor -> ContactForm: Fill out form
+                    Visitor -> Website: Submit form
+                    Website -> Admin: Notify new form submission
+                    Website -> CustomerSupport: Notify new inquiry
+                    
+                    alt Admin handles
+                        Admin -> ContactForm: View form submission
+                        Admin -> Visitor: Respond to inquiry
+                    else Customer Support handles
+                        CustomerSupport -> ContactForm: View form submission
+                        CustomerSupport -> Visitor: Respond to inquiry
+                    end
+                    
+                    @enduml
+                        
+                            '
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
+        <!-- Component Diagram Tab -->
+        <div
+          class="tab-pane fade"
+          id="component"
+          role="tabpanel"
+          aria-labelledby="component-tab"
+        >
+          <div class="row">
+            <div class="col-md-12">
+              <div class="card">
+                <div class="card-header text-center">Component Diagram</div>
+                <div class="card-body text-center uml-image">
+                  <img
+                    uml='
+                    @startuml
+                    title System Architecture Diagram
+                    
+
+                    skinparam package {
+                      BackgroundColor #E0E0E0
+                      BorderColor #009688
+                    }
+                    skinparam class {
+                      BackgroundColor #FFFFFF
+                      BorderColor #007ACC
+                      FontColor #333333
+                    }
+                    skinparam title {
+                      BackgroundColor #007ACC
+                      FontColor #FFFFFF
+                    }
+                    
+
+                    package "Frontend" {
+                        [Browser] as Browser
+                        [UI/Frontend] as UIFrontend
+                        Browser --> UIFrontend
+                    }
+                    
+                    package "Backend" {
+                        [Web Server] as WebServer
+                        [Application Logic] as AppLogic
+                        [Database] as Database
+                    
+                        UIFrontend --> WebServer
+                        WebServer --> AppLogic
+                        AppLogic --> Database
+                    }
+                    
+                    package "External Services" {
+                        [Payment Gateway] as PaymentGateway
+                        [Email Service] as EmailService
+                    }
+                    
+                    Browser --> PaymentGateway : Process Payment
+                    AppLogic --> EmailService : Send Email
+                    
+                    @enduml
+                    
+                            '
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <!-- Deployment Diagram Tab -->
+        <div
+          class="tab-pane fade"
+          id="deployment"
+          role="tabpanel"
+          aria-labelledby="deployment-tab"
+        >
+          <div class="row">
+            <div class="col-md-12">
+              <div class="card">
+                <div class="card-header text-center">Deployment Diagram</div>
+                <div class="card-body text-center uml-image">
+                  <img
+                    uml='
+                    @startuml
+                    title System Architecture Diagram
+                    
+                    skinparam node {
+                      BackgroundColor #E0F7FA
+                      BorderColor #00796B
+                    }
+                    skinparam rectangle {
+                      BackgroundColor #E8F5E9
+                      BorderColor #1B5E20
+                    }
+                    skinparam class {
+                      BackgroundColor #FFFFFF
+                      BorderColor #009688
+                      FontColor #333333
+                    }
+                    skinparam title {
+                      BackgroundColor #00796B
+                      FontColor #FFFFFF
+                    }
+                    
+                    node "Web Server" {
+                      [Web Application] << (S, #FFAAAA) >>
+                    }
+                    
+                    node "Database Server" {
+                      [Database] << (D, #FFDDDD) >>
+                    }
+                    
+                    rectangle "Client Browser" {
+                      [User Interface] << (U, #FFFFAA) >>
+                    }
+                    
+                    [User Interface] --> [Web Application] : "HTTP Requests"
+                    [Web Application] --> [Database] : "Database Queries"
+                    
+                    @enduml
+                    
+                            '
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Object Diagram Tab -->
+        <div
+          class="tab-pane fade"
+          id="object"
+          role="tabpanel"
+          aria-labelledby="object-tab"
+        >
+          <div class="row">
+            <div class="col-md-12">
+              <div class="card">
+                <div class="card-header text-center">Object Diagram</div>
+                <div class="card-body text-center uml-image">
+                  <img
+                    uml='
+                    @startuml
+                    title Object Diagram
+                    
+
+                    skinparam object {
+                      BackgroundColor #E0E0E0
+                      BorderColor #0000FF
+                      FontColor #000000
+                    }
+                    
+
+                    skinparam title {
+                      BackgroundColor #ADD8E6
+                      BorderColor #4682B4
+                      FontColor #000080
+                    }
+                    
+
+                    object Homepage {
+                      + Title: String
+                      + Content: String
+                    }
+                    
+                    object AboutPage {
+                      + Title: String
+                      + Content: String
+                    }
+                    
+                    object ServicesPage {
+                      + Title: String
+                      + ServicesList: List<String>
+                    }
+                    
+                    object ContactPage {
+                      + Title: String
+                      + ContactForm: Form
+                    }
+                    
+                    object PortfolioPage {
+                      + Title: String
+                      + ProjectsList: List<Project>
+                    }
+
+                    Homepage -- AboutPage : "Navigates to"
+                    Homepage -- ServicesPage : "Navigates to"
+                    Homepage -- ContactPage : "Navigates to"
+                    Homepage -- PortfolioPage : "Navigates to"
+                    
+                    @enduml
+                    
+                            '
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
       </div>
     </div>
 
