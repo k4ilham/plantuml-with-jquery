@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JavaScript Live Code Editor</title>
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      /* CSS khusus untuk layout */
+      .code-editor {
+        width: 100%;
+        height: 200px;
+        font-family: monospace;
+        font-size: 14px;
+      }
+      .output-area {
+        border: 1px solid #ccc;
+        min-height: 200px;
+        padding: 10px;
+        margin-top: 10px;
+        background-color: #f8f9fa;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container mt-5">
+      <h2 class="text-center">JavaScript Live Code Editor</h2>
+      <div class="row mt-4">
+        <!-- HTML Editor -->
+        <div class="col-md-4">
+          <h5>HTML</h5>
+          <textarea id="html-code" class="code-editor form-control" placeholder="Write HTML code here"></textarea>
+        </div>
+        <!-- CSS Editor -->
+        <div class="col-md-4">
+          <h5>CSS</h5>
+          <textarea id="css-code" class="code-editor form-control" placeholder="Write CSS code here"></textarea>
+        </div>
+        <!-- JavaScript Editor -->
+        <div class="col-md-4">
+          <h5>JavaScript</h5>
+          <textarea id="js-code" class="code-editor form-control" placeholder="Write JavaScript code here"></textarea>
+        </div>
+      </div>
+      <!-- Button to Run the Code -->
+      <div class="text-center mt-4">
+        <button class="btn btn-primary" onclick="runCode()">Run Code</button>
+      </div>
+      <!-- Output Area -->
+      <div class="output-area mt-4" id="output-area"></div>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+      // Fungsi untuk menjalankan kode yang dimasukkan oleh pengguna
+      function runCode() {
+        // Mengambil nilai dari textarea HTML, CSS, dan JavaScript
+        const htmlCode = document.getElementById("html-code").value;
+        const cssCode = "<style>" + document.getElementById("css-code").value + "</style>";
+        const jsCode = "<script>" + document.getElementById("js-code").value + "<\/script>";
+
+        // Menggabungkan kode HTML, CSS, dan JavaScript
+        const fullCode = htmlCode + cssCode + jsCode;
+
+        // Menampilkan hasil di output-area
+        const outputArea = document.getElementById("output-area");
+        outputArea.innerHTML = fullCode;
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MySQL Live Code Editor</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="container mt-5">
+      <h2 class="text-center">MySQL Live Code Editor</h2>
+
+      <div class="form-group">
+        <label for="sql-query">Enter your SQL query:</label>
+        <textarea id="sql-query" class="form-control" rows="5"></textarea>
+      </div>
+
+      <button class="btn btn-primary" onclick="executeQuery()">Run Query</button>
+
+      <h3 class="mt-4">Result:</h3>
+      <div id="result"></div>
+    </div>
+
+    <script>
+      function executeQuery() {
+        // Get the SQL query from textarea
+        const query = document.getElementById('sql-query').value;
+
+        // Send the query to the PHP backend using AJAX
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST', 'execute_query.php', true);
+        xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+
+        xhr.onload = function () {
+          if (this.status === 200) {
+            // Display the result in the 'result' div
+            document.getElementById('result').innerHTML = this.responseText;
+          } else {
+            document.getElementById('result').innerHTML = 'Error executing query.';
+          }
+        };
+
+        xhr.send('query=' + encodeURIComponent(query));
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Live HTML, CSS, and JavaScript Editor</title>
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      /* Membatasi ukuran editor dan output */
+      .editor {
+        height: 400px;
+      }
+      iframe {
+        width: 100%;
+        height: 100%;
+        border: 1px solid #ddd;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <a class="navbar-brand" href="#">Live Code Editor</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarNav"
+        aria-controls="navbarNav"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container-fluid mt-5">
+      <div class="row">
+        <div class="col-md-4">
+          <!-- Textarea untuk input HTML -->
+          <div class="card">
+            <div class="card-header text-center">HTML Code</div>
+            <div class="card-body">
+              <textarea
+                id="html-code"
+                class="form-control editor"
+                rows="10"
+              >
+<div class="text-center">
+  <h1>Hello World!</h1>
+  <p>This is a live preview of HTML, CSS, and JavaScript.</p>
+</div>
+              </textarea>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <!-- Textarea untuk input CSS -->
+          <div class="card">
+            <div class="card-header text-center">CSS Code</div>
+            <div class="card-body">
+              <textarea
+                id="css-code"
+                class="form-control editor"
+                rows="10"
+              >
+body {
+  background-color: #f8f9fa;
+}
+h1 {
+  color: #007bff;
+}
+p {
+  font-size: 18px;
+}
+              </textarea>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <!-- Textarea untuk input JavaScript -->
+          <div class="card">
+            <div class="card-header text-center">JavaScript Code</div>
+            <div class="card-body">
+              <textarea
+                id="js-code"
+                class="form-control editor"
+                rows="10"
+              >
+document.querySelector('h1').onclick = function() {
+  alert('Hello from JavaScript!');
+};
+              </textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row mt-4">
+        <div class="col-md-12">
+          <!-- Hasil output live -->
+          <div class="card">
+            <div class="card-header text-center">Live Preview</div>
+            <div class="card-body">
+              <iframe id="live-output"></iframe>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bootstrap and jQuery JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+      // Fungsi untuk merender kode dari textarea ke iframe
+      function renderOutput() {
+        const htmlCode = document.getElementById("html-code").value;
+        const cssCode = document.getElementById("css-code").value;
+        const jsCode = document.getElementById("js-code").value;
+
+        const output = document.getElementById("live-output").contentWindow.document;
+
+        output.open();
+        output.write(`
+          <html>
+            <head>
+              <style>${cssCode}</style>
+            </head>
+            <body>
+              ${htmlCode}
+              <script>${jsCode}<\/script>
+            </body>
+          </html>
+        `);
+        output.close();
+      }
+
+      // Update live preview saat textarea berubah
+      document.getElementById("html-code").addEventListener("input", renderOutput);
+      document.getElementById("css-code").addEventListener("input", renderOutput);
+      document.getElementById("js-code").addEventListener("input", renderOutput);
+
+      // Initial render
+      renderOutput();
+    </script>
+  </body>
+</html>

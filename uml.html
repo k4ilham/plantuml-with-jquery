@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Unified Modeling Language - Company Profile</title>
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <script type="text/javascript" src="jquery.js"></script>
+    <script type="text/javascript" src="jquery_plantuml.js"></script>
+    <style>
+      /* Membatasi ukuran gambar UML dan menambahkan scroll */
+      .uml-image {
+        max-width: 100%;
+        max-height: 100%;
+        overflow-x: auto;
+        overflow-y: auto;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <a class="navbar-brand" href="#">UML - Company Profile</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarNav"
+        aria-controls="navbarNav"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container-fluid mt-5">
+      <div class="row">
+        <div class="col-md-6">
+          <!-- Textarea untuk input kode PlantUML -->
+          <div class="card">
+            <div class="card-header text-center">Input PlantUML Code</div>
+            <div class="card-body">
+              <textarea
+                id="plantuml-code"
+                class="form-control"
+                rows="15"
+              >
+@startuml
+title Contact Form Submission Process
+start
+:Visitor Browses Website;
+:View Contact Page;
+if (Wants to Submit Form?) then (Yes)
+    :Fill Out Contact Form;
+    :Submit Form;
+    :Form Submission Recorded;
+    fork
+        :Notify Admin;
+    fork again
+        :Notify Customer Support;
+    end fork
+else (No)
+    :Continue Browsing;
+endif
+fork
+    :Admin Responds to Inquiry;
+fork again
+    :Customer Support Responds to Inquiry;
+end fork
+stop
+@enduml
+              </textarea>
+              <button
+                class="btn btn-primary mt-3"
+                onclick="renderPlantUML()"
+              >
+                Generate Diagram
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <!-- Hasil output gambar UML -->
+          <div class="card">
+            <div class="card-header text-center">UML Diagram</div>
+            <div class="card-body text-center uml-image">
+              <img id="uml-output" src="" alt="Generated UML Diagram" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bootstrap and jQuery JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+      // Fungsi untuk merender PlantUML dari textarea
+      function renderPlantUML() {
+        const umlCode = document.getElementById("plantuml-code").value;
+        const umlOutput = document.getElementById("uml-output");
+
+        // Encode PlantUML code
+        const encoded = encode64(deflate(umlCode, 9));
+        const imgUrl = "http://www.plantuml.com/plantuml/img/" + encoded;
+
+        // Update gambar UML
+        umlOutput.src = imgUrl;
+      }
+
+      // Helper functions to encode PlantUML code
+      function encode64(data) {
+        let r = "";
+        for (let i = 0; i < data.length; i += 3) {
+          if (i + 2 == data.length) {
+            r += append3bytes(data.charCodeAt(i), data.charCodeAt(i + 1), 0);
+          } else if (i + 1 == data.length) {
+            r += append3bytes(data.charCodeAt(i), 0, 0);
+          } else {
+            r += append3bytes(
+              data.charCodeAt(i),
+              data.charCodeAt(i + 1),
+              data.charCodeAt(i + 2)
+            );
+          }
+        }
+        return r;
+      }
+
+      function append3bytes(b1, b2, b3) {
+        let c1 = b1 >> 2;
+        let c2 = ((b1 & 0x3) << 4) | (b2 >> 4);
+        let c3 = ((b2 & 0xf) << 2) | (b3 >> 6);
+        let c4 = b3 & 0x3f;
+        return encode6bit(c1 & 0x3f) + encode6bit(c2 & 0x3f) + encode6bit(c3 & 0x3f) + encode6bit(c4 & 0x3f);
+      }
+
+      function encode6bit(b) {
+        if (b < 10) return String.fromCharCode(48 + b);
+        b -= 10;
+        if (b < 26) return String.fromCharCode(65 + b);
+        b -= 26;
+        if (b < 26) return String.fromCharCode(97 + b);
+        b -= 26;
+        if (b == 0) return "-";
+        if (b == 1) return "_";
+        return "?";
+      }
+
+      function deflate(s) {
+        return pako.deflateRaw(s, { to: 'string' });
+      }
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pako/1.0.11/pako.min.js"></script>
+  </body>
+</html>

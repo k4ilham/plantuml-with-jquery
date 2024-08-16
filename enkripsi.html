@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Encryption and Hashing</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
+  <style>
+    .code-editor {
+      width: 100%;
+      height: 150px;
+      font-family: monospace;
+      font-size: 14px;
+    }
+    .output-area {
+      border: 1px solid #ccc;
+      min-height: 150px;
+      padding: 10px;
+      margin-top: 10px;
+      background-color: #f8f9fa;
+    }
+    .nav-tabs .nav-link.active {
+      background-color: #007bff;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <div class="container mt-5">
+    <h2 class="text-center">Encryption and Hashing</h2>
+
+    <!-- Tabs for Encryption, MD5, bcrypt, and Base64 -->
+    <ul class="nav nav-tabs" id="encryptionTabs" role="tablist">
+      <li class="nav-item">
+        <a class="nav-link active" id="encryption-tab" data-toggle="tab" href="#encryption" role="tab" aria-controls="encryption" aria-selected="true">AES Encryption/Decryption</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="md5-tab" data-toggle="tab" href="#md5" role="tab" aria-controls="md5" aria-selected="false">MD5 Hash</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="bcrypt-tab" data-toggle="tab" href="#bcrypt" role="tab" aria-controls="bcrypt" aria-selected="false">bcrypt Hash</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="base64-tab" data-toggle="tab" href="#base64" role="tab" aria-controls="base64" aria-selected="false">Base64 Encoding/Decoding</a>
+      </li>
+    </ul>
+
+    <!-- Tab Content -->
+    <div class="tab-content mt-4">
+      <!-- AES Encryption/Decryption Tab -->
+      <div class="tab-pane fade show active" id="encryption" role="tabpanel" aria-labelledby="encryption-tab">
+        <div class="row">
+          <div class="col-md-6">
+            <h5>Text</h5>
+            <textarea id="code" class="code-editor form-control" placeholder="Enter text to encrypt/decrypt"></textarea>
+          </div>
+          <div class="col-md-6">
+            <h5>Encryption Key</h5>
+            <input id="encryption-key" class="form-control" placeholder="Enter encryption key" />
+          </div>
+        </div>
+        <div class="row mt-4">
+          <div class="col-md-6">
+            <button class="btn btn-success" onclick="encryptCode()">Encrypt</button>
+          </div>
+          <div class="col-md-6">
+            <button class="btn btn-warning" onclick="decryptCode()">Decrypt</button>
+          </div>
+        </div>
+        <div class="output-area mt-4" id="output-area"></div>
+      </div>
+
+      <!-- MD5 Hash Tab -->
+      <div class="tab-pane fade" id="md5" role="tabpanel" aria-labelledby="md5-tab">
+        <div class="row">
+          <div class="col-md-6">
+            <h5>MD5 Hash</h5>
+            <textarea id="md5-code" class="code-editor form-control" placeholder="Enter text to hash"></textarea>
+            <button class="btn btn-info mt-3" onclick="generateMD5()">Generate MD5</button>
+          </div>
+          <div class="col-md-6">
+            <h5>MD5 Output</h5>
+            <div class="output-area" id="md5-output"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- bcrypt Hash Tab -->
+      <div class="tab-pane fade" id="bcrypt" role="tabpanel" aria-labelledby="bcrypt-tab">
+        <div class="row">
+          <div class="col-md-6">
+            <h5>bcrypt Hash</h5>
+            <textarea id="bcrypt-code" class="code-editor form-control" placeholder="Enter text to hash"></textarea>
+            <button class="btn btn-info mt-3" onclick="generateBcrypt()">Generate bcrypt</button>
+          </div>
+          <div class="col-md-6">
+            <h5>bcrypt Output</h5>
+            <div class="output-area" id="bcrypt-output"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Base64 Encoding/Decoding Tab -->
+      <div class="tab-pane fade" id="base64" role="tabpanel" aria-labelledby="base64-tab">
+        <div class="row">
+          <div class="col-md-6">
+            <h5>Text</h5>
+            <textarea id="base64-code" class="code-editor form-control" placeholder="Enter text to encode/decode"></textarea>
+          </div>
+          <div class="col-md-6">
+            <button class="btn btn-primary mt-3" onclick="encodeBase64()">Encode to Base64</button>
+            <button class="btn btn-secondary mt-3" onclick="decodeBase64()">Decode from Base64</button>
+          </div>
+        </div>
+        <div class="row mt-4">
+          <div class="col-md-6">
+            <h5>Base64 Output</h5>
+            <div class="output-area" id="base64-output"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- JavaScript -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bcryptjs/2.4.3/bcrypt.min.js"></script>
+  <script>
+    // AES Encryption/Decryption functions
+    function encryptCode() {
+      const key = document.getElementById("encryption-key").value;
+      const code = document.getElementById("code").value;
+      const encrypted = CryptoJS.AES.encrypt(code, key).toString();
+      document.getElementById("output-area").innerText = encrypted;
+    }
+
+    function decryptCode() {
+      const key = document.getElementById("encryption-key").value;
+      const encrypted = document.getElementById("output-area").innerText;
+      const bytes = CryptoJS.AES.decrypt(encrypted, key);
+      const decrypted = bytes.toString(CryptoJS.enc.Utf8);
+      document.getElementById("output-area").innerText = decrypted || "Invalid decryption key or corrupted data.";
+    }
+
+    // MD5 Hash function
+    function generateMD5() {
+      const code = document.getElementById("md5-code").value;
+      const hash = CryptoJS.MD5(code).toString();
+      document.getElementById("md5-output").innerText = hash;
+    }
+
+    // bcrypt Hash function
+    function generateBcrypt() {
+      const code = document.getElementById("bcrypt-code").value;
+      bcrypt.hash(code, 10, function(err, hash) {
+        document.getElementById("bcrypt-output").innerText = hash;
+      });
+    }
+
+    // Base64 Encoding/Decoding functions
+    function encodeBase64() {
+      const code = document.getElementById("base64-code").value;
+      const encoded = btoa(code);
+      document.getElementById("base64-output").innerText = encoded;
+    }
+
+    function decodeBase64() {
+      const code = document.getElementById("base64-code").value;
+      try {
+        const decoded = atob(code);
+        document.getElementById("base64-output").innerText = decoded;
+      } catch (e) {
+        document.getElementById("base64-output").innerText = "Invalid Base64 string.";
+      }
+    }
+  </script>
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
